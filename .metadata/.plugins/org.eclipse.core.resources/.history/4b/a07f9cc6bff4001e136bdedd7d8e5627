@@ -1,0 +1,5 @@
+package Package_person;
+
+public class Student extends Person {
+
+}

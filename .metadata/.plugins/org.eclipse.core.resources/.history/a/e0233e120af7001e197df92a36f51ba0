@@ -1,0 +1,242 @@
+package Package_Main;
+
+import java.util.Scanner;
+
+import Package_Exception.StudentNotFoundException;
+import Package_person.Student;
+import Package_person.StudentManager;
+
+public class Main {
+	public static void main(String args[]) {
+		int choice = 0;
+		
+		Scanner sc =  new Scanner(System.in);
+		
+//		Book_Manager bm = new Book_Manager();
+		StudentManager sm = new StudentManager();
+//		Book_Traction_Manager btm = new Book_Traction_Manager();
+		
+		do {
+			System.out.println("Enter your Choice");
+			System.out.println("Press 1 if your Student");
+			System.out.println("Press 2 if your Libaraian");
+			System.out.println("Press 3 if you want to Exit ");
+			
+			choice = sc.nextInt();
+			
+			if(choice==1) 
+			{
+				System.out.println("Enter Your Roll No ");
+				
+				int roll_no=sc.nextInt();
+				
+				try {
+					Student s = sm.get(roll_no);
+					if(s==null)
+						throw new StudentNotFoundException();
+					
+					int std_choice;
+					do {
+						System.out.println(
+								  "Enter 1 for View all Books\n "
+								+ "Enter 2 for Search a Book by Isbn \n "
+								+ "Enter 3  for list books by subject\n "
+								+ "Enter 4 to Issue a book\n Enter "
+								+ "5 to return a Book\n "
+								+ "Enter 00 to Exit..! ");
+						
+						std_choice = sc.nextInt();
+						
+						switch (std_choice) {
+						case 1: 
+							System.out.println("View all Books Selected");
+							break;
+							
+						case 2:
+							System.out.println("Search by ISBN");
+							break;
+							
+						case 3: 
+							System.out.println("Search By Subject");
+							break;
+							
+						case 4:
+							System.out.println("Issueal of Book");
+							break;
+							
+						case 5:
+							System.out.println("Return a Book");
+							break;
+						
+						case 00:
+							System.out.println("Thanks for using libary");
+							break;
+						
+						default:
+							throw new IllegalArgumentException("Unexpected value: " + std_choice);
+						}
+						
+					} while (std_choice != 99);
+				} catch (StudentNotFoundException e) {
+					System.out.println(e);
+				
+				}
+			}
+			else if(choice==2) 
+			{
+				int lib_choice;
+				do 
+				{
+				
+					
+				
+					System.out.println(
+						  "Enter 11 to View all Students\n Enter 12 to Print a Student by a Rolno \n "
+						+ "Enter 13 to Register a Student\n "
+						+ "Enter 14 to Update a Student\n "
+						+ "Enter 15 to Delete a Student\n "
+						+ "Enter 21 to View all Books \n "
+						+ "Enter 22 to Print a book by isbn \n "
+						+ "Enter 23 to Add a new book \n "
+						+ "Enter 24 to Update a Book\n "
+						+ "Enter 25 to Delete a Book\n "
+						+ "Enter 25 to View All Tranctions\n "
+					   + "Enter 000 to Exit..! ");
+				
+				lib_choice = sc.nextInt();
+				
+				
+				switch (lib_choice) {
+				case 11: 
+					System.out.println("View all Students");
+					sm.studentViewAll();
+					break;
+					
+				case 12:
+					System.out.println("Enyter a rollno to Print a Students");
+					int roll_lib = sc.nextInt();
+					Student ss = sm.get(roll_lib);
+					if(ss == null) {
+						System.out.println("Invalid roll no or Just add new record");
+					}else  
+						System.out.println(ss);
+					break;
+					
+				case 13: //Adding a student
+					System.out.println("Enter Student details to add");
+					String name;
+					String email_id;
+					String phone_number;
+					String address;
+					String dob;
+					int roll_no;
+					int std;
+					String division;
+					sc.nextLine();
+					
+					System.out.println("Name");
+					name = sc.nextLine();
+					
+					System.out.println("Email id");
+					email_id = sc.nextLine();
+					
+					System.out.println("Phone Number");
+					phone_number = sc.nextLine();
+					
+					System.out.println("Address");
+					address = sc.nextLine();
+					
+					System.out.println("date of birth");
+					dob = sc.nextLine();
+					
+					System.out.println("roll Number");
+					roll_no = sc.nextInt();
+					
+					System.out.println("Standerd");
+					std = sc.nextInt();
+					
+					System.out.println("Division");
+					division = sc.nextLine();
+					
+					sc.nextLine();
+					
+					 ss = new Student( name,  email_id,  phone_number,  address,  dob,  roll_no,  std, division) ;
+					 System.out.println("Student is Added..!");
+					break;
+					
+				case 14://updating
+					
+					System.out.println("Enter a roll number to modify");
+					int roll_modify;
+					roll_modify=sc.nextInt();
+					ss = sm.get(roll_modify);
+				
+				try {	
+					if(ss == null) 
+						System.out.println("student not found ");
+					
+					System.out.println("Name");
+					name = sc.nextLine();
+					
+					System.out.println("Email id");
+					email_id = sc.nextLine();
+					
+					System.out.println("Phone Number");
+					phone_number = sc.nextLine();
+					
+					System.out.println("Address");
+					address = sc.nextLine();
+					
+					System.out.println("date of birth");
+					dob = sc.nextLine();
+					
+					
+					System.out.println("Standerd");
+					std = sc.nextInt();
+					
+					System.out.println("Division");
+					division = sc.nextLine();
+					
+					sm.updatestudent(roll_modify, name, email_id, phone_number, address, dob, std, division);
+					
+					System.out.println("Students details updated..!");
+				} 
+				catch (Exception e1s) 
+				{
+						System.out.println(e1s);
+				}
+					break;
+					
+				case 15:
+					System.out.println("Enter a roll no to delete ");
+					int del_rollno;
+					del_rollno = sc.nextInt();
+					
+					if(sm.deletestudent(del_rollno))
+						System.out.println("Sucessfully Deleted a  studnet ");
+					else
+						System.out.println("No Record found for this rollno");
+					break;
+				
+				case 000:
+					System.out.println("Thanks for using libary");
+					break;
+				
+				default:
+					throw new IllegalArgumentException("Unexpected value:" );
+				}
+				
+				} while(lib_choice != 99);	
+			}
+
+			
+			
+		} while (choice != 3);
+		sm.writedatatoFile();
+		sc.close();
+		
+		}
+	
+	
+
+}

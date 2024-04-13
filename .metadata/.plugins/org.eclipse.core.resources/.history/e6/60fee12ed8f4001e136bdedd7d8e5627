@@ -1,0 +1,5 @@
+package Package_Exception;
+
+public class BookNotFoundException extends Exception {
+
+}
